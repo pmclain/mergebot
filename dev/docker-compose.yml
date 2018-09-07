@@ -1,0 +1,43 @@
+version: "3"
+services:
+  web:
+    build: ./nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    links:
+      - app
+    networks:
+      default:
+        aliases:
+          - mergebot.docker
+    volumes:
+      - ..:/var/www/html
+    environment:
+      - VIRTUAL_HOST=mergbot.docker
+  
+  app:
+    build: ./php72
+    links:
+      - amqp
+    volumes:
+      - ~/.composer/cache:/root/.composer/cache
+      - ..:/var/www/html
+    env_file:
+      - ./composer.env
+    environment:
+      - PHP_IDE_CONFIG=serverName=stripe.docker
+      - XDEBUG_ENABLE=true
+
+  amqp:
+    image: rabbitmq:3-management
+    ports:
+      - "15672:15672"
+    volumes:
+      - rabbitmq-vol:/var/lib/rabbitmq
+
+networks:
+  default:
+
+volumes:
+  rabbitmq-vol:
