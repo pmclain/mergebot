@@ -5,6 +5,7 @@ LABEL MAINTAINER="Patrick McLain <pat@pmclain.com>"
 # Install dependencies
 RUN apt-get update \
   && apt-get install -y \
+    zlib1g-dev \
     libxml2-dev \
     libsodium-dev \
     openssl \
@@ -15,8 +16,8 @@ RUN apt-get update \
 # Install required PHP extensions
 
 RUN docker-php-ext-install \
-  dom \ 
-  sodium
+  bcmath \
+  zip
 
 RUN pecl install -o -f xdebug
 

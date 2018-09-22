@@ -28,3 +28,48 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\Controller\Github:
+      public: true
+      arguments:
+        $handlerPool: '@App\EventHandler\GithubHandlerPool'
+
+    App\EventHandler\GithubHandlerPool:
+      arguments:
+        $events:
+          ping: '@App\EventHandler\Github\Ping'
+          pull_request: '@App\EventHandler\Github\PullRequest'
+
+    App\EventHandler\Github\PullRequest:
+      arguments:
+        $actions:
+          opened: true
+        $producer: '@old_sound_rabbit_mq.github_pr_producer'
+
+    App\Consumer\Github\PullRequest:
+      arguments:
+        $actions:
+          opened:
+            - '@App\ActionHandler\Github\PullRequest\Opened\AutoMerge'
+
+    App\ActionHandler\Github\PullRequest\Opened\AutoMerge:
+      arguments:
+        $mergeConditions:
+          - '@App\ActionHandler\Github\PullRequest\Opened\MergeCondition\WhitelistedFiles'
+
+    App\ActionHandler\Github\PullRequest\Opened\MergeCondition\WhitelistedFiles:
+      arguments:
+        $filelist:
+          'composer.lock': ['modified']
+          'yarn.lock': ['modified']
+          'package.lock': ['modified']
+          '.gitignore': ['modified', 'added']
+
+    GuzzleHttp\Client:
+      shared: false
+
+    App\Model\Github\Adapter:
+      arguments:
+        $userName: '%env(GITHUB_USERNAME)%'
+        $accessToken: '%env(GITHUB_ACCESS_TOKEN)%'
+        $client: '@GuzzleHttp\Client'

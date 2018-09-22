@@ -13,3 +13,15 @@ old_sound_rabbit_mq:
 #            exchange_options: { name: 'task', type: direct }
 #            queue_options:    { name: 'task'}
 #            callback:         App\Consumer\TaskConsumer
+    producers:
+      github_pr:
+        connection: default
+        exchange_options: { name: 'github.pr', type: direct }
+    consumers:
+      github_pr:
+        connection: default
+        exchange_options: { name: 'github.pr', type: direct}
+        queue_options: { name: 'github.pr' }
+        idle_timeout: 5
+        idle_timeout_exit_code: 0
+        callback: App\Consumer\Github\PullRequest

@@ -14,7 +14,7 @@ services:
     volumes:
       - ..:/var/www/html
     environment:
-      - VIRTUAL_HOST=mergbot.docker
+      - VIRTUAL_HOST=mergebot.docker
   
   app:
     build: ./php72
@@ -26,7 +26,7 @@ services:
     env_file:
       - ./composer.env
     environment:
-      - PHP_IDE_CONFIG=serverName=stripe.docker
+      - PHP_IDE_CONFIG=serverName=mergebot.docker
       - XDEBUG_ENABLE=true
 
   amqp:
