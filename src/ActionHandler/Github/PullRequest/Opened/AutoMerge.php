@@ -6,6 +6,7 @@ use App\ActionHandler\Github\PullRequest\Opened\MergeCondition\MergeConditionInt
 use App\ActionHandler\TaskInterface;
 use App\Exception\HttpResponseException;
 use App\Model\Github\PullRequestManagement;
+use Psr\Log\LoggerInterface;
 
 class AutoMerge implements TaskInterface
 {
@@ -19,12 +20,19 @@ class AutoMerge implements TaskInterface
      */
     private $pullRequestManagement;
 
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
     public function __construct(
         array $mergeConditions,
-        PullRequestManagement $pullRequestManagement
+        PullRequestManagement $pullRequestManagement,
+        LoggerInterface $logger
     ) {
         $this->mergeConditions = $mergeConditions;
         $this->pullRequestManagement = $pullRequestManagement;
+        $this->logger = $logger;
     }
 
     public function execute(array $data)
@@ -33,11 +41,10 @@ class AutoMerge implements TaskInterface
             if ($mergeCondition->allowMerge($data)) {
                 try {
                     $this->pullRequestManagement->merge($data['pull_request']);
+                    return;
                 } catch (HttpResponseException $e) {
-                    // TODO: add some logging. until then... keep on truckin'
+                    $this->logger->error($e);
                 }
-
-                return;
             }
         }
     }

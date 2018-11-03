@@ -7,6 +7,7 @@ use App\ActionHandler\Github\PullRequest\Opened\MergeCondition\MergeConditionInt
 use App\Model\Github\PullRequestManagement;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 
 class AutoMergeTest extends TestCase
 {
@@ -21,6 +22,11 @@ class AutoMergeTest extends TestCase
     private $pullRequestManagementMock;
 
     /**
+     * @var LoggerInterface|MockObject
+     */
+    private $loggerMock;
+
+    /**
      * @var array
      */
     private $eventMessage;
@@ -29,6 +35,7 @@ class AutoMergeTest extends TestCase
     {
         $this->mergeConditionMock = $this->createMock(MergeConditionInterface::class);
         $this->pullRequestManagementMock = $this->createMock(PullRequestManagement::class);
+        $this->loggerMock = $this->createMock(LoggerInterface::class);
         $this->eventMessage = json_decode(file_get_contents(__DIR__ . '/../../../../data/github/event/pullrequest_open.json'), true);
     }
 
@@ -40,7 +47,11 @@ class AutoMergeTest extends TestCase
         $this->pullRequestManagementMock->expects($this->once())
             ->method('merge');
 
-        $action = new AutoMerge([$this->mergeConditionMock], $this->pullRequestManagementMock);
+        $action = new AutoMerge(
+            [$this->mergeConditionMock],
+            $this->pullRequestManagementMock,
+            $this->loggerMock
+        );
         $action->execute($this->eventMessage);
     }
 
@@ -52,7 +63,11 @@ class AutoMergeTest extends TestCase
         $this->pullRequestManagementMock->expects($this->never())
             ->method('merge');
 
-        $action = new AutoMerge([$this->mergeConditionMock], $this->pullRequestManagementMock);
+        $action = new AutoMerge(
+            [$this->mergeConditionMock],
+            $this->pullRequestManagementMock,
+            $this->loggerMock
+        );
         $action->execute($this->eventMessage);
     }
 }
