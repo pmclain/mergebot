@@ -1,10 +1,12 @@
 <?php
 
-namespace App\EventHandler;
+namespace App\EventHandler\Github;
 
 use App\Exception\EventNotFoundException;
+use App\EventHandler\EventHandlerPoolInterface;
+use App\EventHandler\EventHandlerInterface;
 
-class GithubHandlerPool implements EventHandlerPoolInterface
+class HandlerPool implements EventHandlerPoolInterface
 {
     /**
      * @var EventHandlerInterface[]

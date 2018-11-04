@@ -1,12 +1,12 @@
 version: "3"
 services:
-  web:
+  mbweb:
     build: ./nginx
     ports:
       - "80:80"
       - "443:443"
     links:
-      - app
+      - mbapp
     networks:
       default:
         aliases:
@@ -15,11 +15,12 @@ services:
       - ..:/var/www/html
     environment:
       - VIRTUAL_HOST=mergebot.docker
+      - FPM_HOST=mbapp
   
-  app:
+  mbapp:
     build: ./php72
     links:
-      - amqp
+      - mbamqp
     volumes:
       - ~/.composer/cache:/root/.composer/cache
       - ..:/var/www/html
@@ -29,15 +30,15 @@ services:
       - PHP_IDE_CONFIG=serverName=mergebot.docker
       - XDEBUG_ENABLE=true
 
-  amqp:
+  mbamqp:
     image: rabbitmq:3-management
     ports:
       - "15672:15672"
     volumes:
-      - rabbitmq-vol:/var/lib/rabbitmq
+      - mbrabbitmq-vol:/var/lib/rabbitmq
 
 networks:
   default:
 
 volumes:
-  rabbitmq-vol:
+  mbrabbitmq-vol:

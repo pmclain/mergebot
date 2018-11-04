@@ -1,0 +1,10 @@
+pullRequest:
+  opened:
+    autoMerge:
+      mergeCondition:
+        whitelistedFiles:
+          allowedFiles:
+            'a.txt':
+              - modified
+            'b.txt':
+              - modified

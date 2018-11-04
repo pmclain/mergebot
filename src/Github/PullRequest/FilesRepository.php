@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Model\Github\PullRequest;
+namespace App\Github\PullRequest;
 
-use App\Model\Github\Adapter;
+use App\Github\Adapter;
 
 class FilesRepository
 {

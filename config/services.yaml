@@ -32,9 +32,9 @@ services:
     App\Controller\Github:
       public: true
       arguments:
-        $handlerPool: '@App\EventHandler\GithubHandlerPool'
+        $handlerPool: '@App\EventHandler\Github\HandlerPool'
 
-    App\EventHandler\GithubHandlerPool:
+    App\EventHandler\Github\HandlerPool:
       arguments:
         $events:
           ping: '@App\EventHandler\Github\Ping'
@@ -57,18 +57,10 @@ services:
         $mergeConditions:
           - '@App\ActionHandler\Github\PullRequest\Opened\MergeCondition\WhitelistedFiles'
 
-    App\ActionHandler\Github\PullRequest\Opened\MergeCondition\WhitelistedFiles:
-      arguments:
-        $filelist:
-          'composer.lock': ['modified']
-          'yarn.lock': ['modified']
-          'package.lock': ['modified']
-          '.gitignore': ['modified', 'added']
-
     GuzzleHttp\Client:
       shared: false
 
-    App\Model\Github\Adapter:
+    App\Github\Adapter:
       arguments:
         $userName: '%env(GITHUB_USERNAME)%'
         $accessToken: '%env(GITHUB_ACCESS_TOKEN)%'

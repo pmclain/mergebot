@@ -1,0 +1,15 @@
+pullRequest:
+  opened:
+    autoMerge:
+      mergeCondition:
+        whitelistedFiles:
+          allowedFiles:
+            'composer.lock':
+              - modified
+            'yarn.lock':
+              - modified
+            'package.lock':
+              - modified
+            '.gitignore':
+              - modified
+              - added
