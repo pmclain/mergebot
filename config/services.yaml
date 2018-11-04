@@ -32,7 +32,7 @@ services:
     App\Controller\Github:
       public: true
       arguments:
-        $handlerPool: '@App\EventHandler\GithubHandlerPool'
+        $handlerPool: '@App\EventHandler\Github\HandlerPool'
 
     App\EventHandler\GithubHandlerPool:
       arguments:
