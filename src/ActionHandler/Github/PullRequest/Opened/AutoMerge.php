@@ -5,7 +5,7 @@ namespace App\ActionHandler\Github\PullRequest\Opened;
 use App\ActionHandler\Github\PullRequest\Opened\MergeCondition\MergeConditionInterface;
 use App\ActionHandler\TaskInterface;
 use App\Exception\HttpResponseException;
-use App\Model\Github\PullRequestManagement;
+use App\Github\PullRequestManagement;
 use Psr\Log\LoggerInterface;
 
 class AutoMerge implements TaskInterface

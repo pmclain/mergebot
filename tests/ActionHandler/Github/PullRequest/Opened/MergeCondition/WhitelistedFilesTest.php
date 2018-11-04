@@ -3,7 +3,7 @@
 namespace App\Tests\ActionHandler\Github\PullRequest\Opened\MergeCondition;
 
 use App\ActionHandler\Github\PullRequest\Opened\MergeCondition\WhitelistedFiles;
-use App\Model\Github\PullRequestManagement;
+use App\Github\PullRequestManagement;
 use PHPUnit\Framework\TestCase;
 
 class WhitelistedFilesTest extends TestCase

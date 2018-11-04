@@ -4,7 +4,7 @@ namespace App\Tests\ActionHandler\Github\PullRequest\Opened;
 
 use App\ActionHandler\Github\PullRequest\Opened\AutoMerge;
 use App\ActionHandler\Github\PullRequest\Opened\MergeCondition\MergeConditionInterface;
-use App\Model\Github\PullRequestManagement;
+use App\Github\PullRequestManagement;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;

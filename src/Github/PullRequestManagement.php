@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model\Github;
+namespace App\Github;
 
 use App\Exception\HttpResponseException;
 

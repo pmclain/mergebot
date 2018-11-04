@@ -2,7 +2,7 @@
 
 namespace App\ActionHandler\Github\PullRequest\Opened\MergeCondition;
 
-use App\Model\Github\PullRequestManagement;
+use App\Github\PullRequestManagement;
 
 class WhitelistedFiles implements MergeConditionInterface
 {
