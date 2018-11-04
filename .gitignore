@@ -8,6 +8,7 @@
 /.idea
 /dev/composer.env
 /tests/coverage
+/build
 
 ###> symfony/phpunit-bridge ###
 .phpunit

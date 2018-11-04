@@ -4,6 +4,12 @@ pullRequest:
       mergeCondition:
         whitelistedFiles:
           allowedFiles:
-            - file1.txt
-            - file2.txt
-            - file3.txt
+            'composer.lock':
+              - modified
+            'yarn.lock':
+              - modified
+            'package.lock':
+              - modified
+            '.gitignore':
+              - modified
+              - added

@@ -4,5 +4,7 @@ pullRequest:
       mergeCondition:
         whitelistedFiles:
           allowedFiles:
-            - a.txt
-            - b.txt
+            'a.txt':
+              - modified
+            'b.txt':
+              - modified

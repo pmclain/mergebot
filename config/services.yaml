@@ -57,14 +57,6 @@ services:
         $mergeConditions:
           - '@App\ActionHandler\Github\PullRequest\Opened\MergeCondition\WhitelistedFiles'
 
-    App\ActionHandler\Github\PullRequest\Opened\MergeCondition\WhitelistedFiles:
-      arguments:
-        $filelist:
-          'composer.lock': ['modified']
-          'yarn.lock': ['modified']
-          'package.lock': ['modified']
-          '.gitignore': ['modified', 'added']
-
     GuzzleHttp\Client:
       shared: false
 
