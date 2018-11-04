@@ -49,6 +49,7 @@ class Adapter
                 RequestOptions::AUTH => $this->getAuthArray(),
             ]);
         } catch (ClientException $e) {
+            $response = $e->getResponse();
             throw new HttpResponseException('REQUEST: ' . $e->getRequest()->getBody() . '\nRESPONSE: ' . $response->getBody(), $response->getStatusCode());
         }
 
@@ -67,6 +68,7 @@ class Adapter
                 RequestOptions::AUTH => $this->getAuthArray()
             ]);
         } catch (ClientException $e) {
+            $response = $e->getResponse();
             throw new HttpResponseException('REQUEST: ' . $e->getRequest()->getBody() . '\nRESPONSE: ' . $response->getBody(), $response->getStatusCode());
         }
 
@@ -87,6 +89,7 @@ class Adapter
                 RequestOptions::JSON => $data,
             ]);
         } catch (ClientException $e) {
+            $response = $e->getResponse();
             throw new HttpResponseException('REQUEST: ' . $e->getRequest()->getBody() . '\nRESPONSE: ' . $response->getBody(), $response->getStatusCode());
         }
 
@@ -110,6 +113,7 @@ class Adapter
         try {
             $response = $this->client->put($url, $options);
         } catch (ClientException $e) {
+            $response = $e->getResponse();
             throw new HttpResponseException('REQUEST: ' . $e->getRequest()->getBody() . '\nRESPONSE: ' . $response->getBody(), $response->getStatusCode());
         }
 
