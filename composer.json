@@ -11,9 +11,11 @@
         "symfony/flex": "^1.1",
         "symfony/framework-bundle": "*",
         "symfony/monolog-bundle": "^3.3",
+        "symfony/property-access": "*",
         "symfony/yaml": "*"
     },
     "require-dev": {
+        "php-coveralls/php-coveralls": "^2.1",
         "symfony/dotenv": "*",
         "symfony/test-pack": "^1.0"
     },

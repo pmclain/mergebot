@@ -34,7 +34,7 @@ services:
       arguments:
         $handlerPool: '@App\EventHandler\Github\HandlerPool'
 
-    App\EventHandler\GithubHandlerPool:
+    App\EventHandler\Github\HandlerPool:
       arguments:
         $events:
           ping: '@App\EventHandler\Github\Ping'
@@ -68,7 +68,7 @@ services:
     GuzzleHttp\Client:
       shared: false
 
-    App\Model\Github\Adapter:
+    App\Github\Adapter:
       arguments:
         $userName: '%env(GITHUB_USERNAME)%'
         $accessToken: '%env(GITHUB_ACCESS_TOKEN)%'

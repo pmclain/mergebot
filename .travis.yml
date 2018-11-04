@@ -1,0 +1,13 @@
+sudo: required
+language: php
+php:
+  - 7.2
+cache:
+  directories:
+    - $HOME/.composer/cache
+install:
+  - composer install
+script:
+  - php bin/phpunit
+after_success:
+  - travis_retry php vendor/bin/php-coveralls -v

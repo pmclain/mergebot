@@ -15,6 +15,7 @@ services:
       - ..:/var/www/html
     environment:
       - VIRTUAL_HOST=mergebot.docker
+      - FPM_HOST=mbapp
   
   mbapp:
     build: ./php72
