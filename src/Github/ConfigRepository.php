@@ -8,7 +8,7 @@ use Symfony\Component\Yaml\Yaml;
 
 class ConfigRepository
 {
-    const CONFIG_URL_PATTERN = 'https://raw.githubusercontent.com/%s/%s/%s/.mergbot.yml';
+    const CONFIG_URL_PATTERN = 'https://raw.githubusercontent.com/%s/%s/%s/.mergebot.yml';
 
     /**
      * @var Adapter

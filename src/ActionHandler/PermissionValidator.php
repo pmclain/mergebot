@@ -2,8 +2,6 @@
 
 namespace App\ActionHandler;
 
-use Symfony\Component\PropertyAccess\Exception\NoSuchIndexException;
-
 class PermissionValidator
 {
     /**
