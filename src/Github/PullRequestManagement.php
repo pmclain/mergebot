@@ -26,18 +26,19 @@ class PullRequestManagement
      */
     public function merge(array $pullRequest)
     {
-        $this->comment($pullRequest);
+        $this->comment($pullRequest, 'Auto-merged by mergebot.');
         $this->adapter->put($pullRequest['url'] . self::URL_MERGE);
     }
 
     /**
      * @param array $pullRequest
+     * @param string $comment
      * @throws HttpResponseException
      */
-    public function comment(array $pullRequest)
+    public function comment(array $pullRequest, string $comment)
     {
         $this->adapter->post($pullRequest['comments_url'], [
-            'body' => 'Auto-merged by mergebot.',
+            'body' => $comment,
         ]);
     }
 
