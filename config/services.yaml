@@ -44,6 +44,8 @@ services:
       arguments:
         $actions:
           opened: true
+          closed: true
+          edited: true
         $producer: '@old_sound_rabbit_mq.github_pr_producer'
 
     App\Consumer\Github\PullRequest:
@@ -51,6 +53,10 @@ services:
         $actions:
           opened:
             - '@App\ActionHandler\Github\PullRequest\Opened\AutoMerge'
+          closed:
+            - '@App\ActionHandler\Github\PullRequest\Closed\ReleaseMe'
+          edited:
+            - '@App\ActionHandler\Github\PullRequest\Closed\ReleaseMe'
 
     App\ActionHandler\Github\PullRequest\Opened\AutoMerge:
       arguments:
