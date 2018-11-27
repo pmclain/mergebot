@@ -71,3 +71,7 @@ services:
         $userName: '%env(GITHUB_USERNAME)%'
         $accessToken: '%env(GITHUB_ACCESS_TOKEN)%'
         $client: '@GuzzleHttp\Client'
+
+    App\Github\RequestValidator:
+      arguments:
+        $secretKey: '%env(GITHUB_WEBHOOK_SECRET)%'

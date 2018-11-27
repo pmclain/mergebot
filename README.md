@@ -10,6 +10,7 @@ Does other stuff too, but the name it was it is.
    * `RABBITMQ_URL`
    * `GITHUB_USERNAME`
    * `GITHUB_ACCESS_TOKEN`
+   * `GITHUB_WEBHOOK_SECRET`
 2. `composer install`
 3. `bin/console cache:clear --env=prod --no-debug`
 4. `bin/console rabbitmq:setup-fabric`
