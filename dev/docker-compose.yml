@@ -21,6 +21,7 @@ services:
     build: ./php72
     links:
       - mbamqp
+      - mbdb
     volumes:
       - ~/.composer/cache:/root/.composer/cache
       - ..:/var/www/html
@@ -37,8 +38,22 @@ services:
     volumes:
       - mbrabbitmq-vol:/var/lib/rabbitmq
 
+  mbdb:
+    image: mysql:5
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mergebot
+      MYSQL_USER: mergebot
+      MYSQL_PASSWORD: mergebot
+    volumes:
+      - mbdb-vol:/data/db
+
 networks:
   default:
 
 volumes:
   mbrabbitmq-vol:
+  mbdb-vol:

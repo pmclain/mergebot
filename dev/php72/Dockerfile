@@ -11,15 +11,21 @@ RUN apt-get update \
     openssl \
     sudo \
     rsyslog \
-    git
+    git \
+    libssl-dev \
+    mysql-client
 
 # Install required PHP extensions
 
 RUN docker-php-ext-install \
   bcmath \
-  zip
+  zip \
+  pdo_mysql \
+  sockets
 
 RUN pecl install -o -f xdebug
+RUN pecl install -o -f mongodb
+RUN docker-php-ext-enable mongodb
 
 VOLUME /root/.composer/cache
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
