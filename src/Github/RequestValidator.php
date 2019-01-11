@@ -2,8 +2,8 @@
 
 namespace App\Github;
 
+use App\Exception\RequestValidationException;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class RequestValidator
 {
@@ -24,19 +24,19 @@ class RequestValidator
     /**
      * @param Request $request
      * @return bool
-     * @throws UnauthorizedHttpException
+     * @throws RequestValidationException
      */
     public function validate(Request $request): bool
     {
         $signature = $request->headers->get(self::HEADER_SIGNATURE);
         if (!$signature) {
-            throw new UnauthorizedHttpException('Request signature not found. Was hook secret configured?');
+            throw new RequestValidationException('Request signature not found. Was hook secret configured?');
         }
 
         $expected = self::SIGNATURE_PREFIX . hash_hmac('sha1', $request->getContent(), $this->secretKey);
 
         if ($expected !== $signature) {
-            throw new UnauthorizedHttpException('Verification of the request failed.');
+            throw new RequestValidationException('Verification of the request failed.');
         }
 
         return true;

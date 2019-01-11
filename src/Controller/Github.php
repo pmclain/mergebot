@@ -1,13 +1,15 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\EventRecorder;
 use App\EventHandler\EventHandlerPoolInterface;
 use App\Exception\EventNotFoundException;
+use App\Exception\RequestValidationException;
 use App\Github\RequestValidator;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class Github
 {
@@ -23,16 +25,25 @@ class Github
      */
     private $requestValidator;
 
+    /**
+     * @var EventRecorder
+     */
+    private $eventRecorder;
+
     public function __construct(
         EventHandlerPoolInterface $handlerPool,
-        RequestValidator $requestValidator
+        RequestValidator $requestValidator,
+        EventRecorder $eventRecorder
     ) {
         $this->handlerPool = $handlerPool;
         $this->requestValidator = $requestValidator;
+        $this->eventRecorder = $eventRecorder;
     }
 
     public function webhook(Request $request): JsonResponse
     {
+        $eventData = json_decode($request->getContent(), true);
+
         try {
             $this->requestValidator->validate($request);
             $event = $request->headers->get(self::HEADER_EVENT);
@@ -40,13 +51,11 @@ class Github
                 throw new EventNotFoundException(sprintf('%s header contained no event.', self::HEADER_EVENT));
             }
 
-            $this->handlerPool->handle(
-                $event,
-                json_decode($request->getContent(), true)
-            );
+            $this->handlerPool->handle($event, $eventData);
         } catch (EventNotFoundException $e) {
             return new JsonResponse(['error' => $e->getMessage()], 400);
-        } catch (UnauthorizedHttpException $e) {
+        } catch (RequestValidationException $e) {
+            $this->eventRecorder->record('webhook', $eventData, $e->getMessage());
             return new JsonResponse(['error' => $e->getMessage()], 403);
         }
 

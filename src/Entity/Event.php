@@ -90,4 +90,14 @@ class Event
 
         return $this;
     }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'task_name' => $this->getTaskName(),
+            'event_data' => $this->getEventData(),
+            'create_at' => $this->getCreatedAt(),
+        ];
+    }
 }

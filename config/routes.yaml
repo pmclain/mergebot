@@ -7,3 +7,9 @@ github_webhook:
   methods:
     - POST
   controller: App\Controller\Github::webhook
+
+event_list:
+  path: /secure/event/list
+  methods:
+    - GET
+  controller: App\Controller\Event::list

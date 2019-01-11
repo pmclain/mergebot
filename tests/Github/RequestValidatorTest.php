@@ -51,7 +51,7 @@ class RequestValidatorTest extends TestCase
     }
 
     /**
-     * @expectedException \Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException
+     * @expectedException \App\Exception\RequestValidationException
      */
     public function testValidateNoMatch()
     {
@@ -66,7 +66,7 @@ class RequestValidatorTest extends TestCase
     }
 
     /**
-     * @expectedException \Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException
+     * @expectedException \App\Exception\RequestValidationException
      */
     public function testValidateNoHeader()
     {
