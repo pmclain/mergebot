@@ -1,12 +1,12 @@
 version: "3"
 services:
-  mbweb:
+  web:
     build: ./nginx
     ports:
       - "80:80"
       - "443:443"
     links:
-      - mbapp
+      - app
     networks:
       default:
         aliases:
@@ -15,12 +15,13 @@ services:
       - ..:/var/www/html
     environment:
       - VIRTUAL_HOST=mergebot.docker
-      - FPM_HOST=mbapp
+      - FPM_HOST=app
   
-  mbapp:
+  app:
     build: ./php72
     links:
-      - mbamqp
+      - amqp
+      - db
     volumes:
       - ~/.composer/cache:/root/.composer/cache
       - ..:/var/www/html
@@ -30,15 +31,29 @@ services:
       - PHP_IDE_CONFIG=serverName=mergebot.docker
       - XDEBUG_ENABLE=true
 
-  mbamqp:
+  amqp:
     image: rabbitmq:3-management
     ports:
       - "15672:15672"
     volumes:
       - mbrabbitmq-vol:/var/lib/rabbitmq
 
+  db:
+    image: mysql:5
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mergebot
+      MYSQL_USER: mergebot
+      MYSQL_PASSWORD: mergebot
+    volumes:
+      - mbdb-vol:/data/db
+
 networks:
   default:
 
 volumes:
   mbrabbitmq-vol:
+  mbdb-vol:

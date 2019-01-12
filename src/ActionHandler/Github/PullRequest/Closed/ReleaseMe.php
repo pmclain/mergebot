@@ -114,7 +114,7 @@ class ReleaseMe implements TaskInterface
             if (strpos($commit['commit']['message'], 'Merge pull request') !== false) {
                 continue;
             }
-            $body .= '* ' . rtrim(strtok($commit['commit']['message'], "\n")) . "\r\n";
+            $body .= '* ' . rtrim((string) strtok($commit['commit']['message'], "\n")) . "\r\n";
         }
         $body .= "\r\nRelease created by mergebot";
 
@@ -128,10 +128,28 @@ class ReleaseMe implements TaskInterface
     private function shouldCreateRelease(array $data): bool
     {
         $config = $this->getConfig($data);
-        return $this->permissionValidator->isAllowAction(get_class($this), $config)
-            && $data['pull_request']['merged']
-            && ($config->getValue(self::CONFIG_PATH_TARGET_BRANCH) === $data['pull_request']['base']['ref'])
-            && (stripos($data['pull_request']['body'], self::RELEASE_BODY_TRIGGER) !== false);
+        $createRelease = true;
+        $message = '';
+
+        if (!$this->permissionValidator->isAllowAction(get_class($this), $config)) {
+            $createRelease = false;
+            $message = 'ReleaseMe is not configured for this PR.';
+        } elseif (!$data['pull_request']['merged']) {
+            $createRelease = false;
+            $message = 'PR was not merged.';
+        } elseif ($config->getValue(self::CONFIG_PATH_TARGET_BRANCH) !== $data['pull_request']['base']['ref']) {
+            $createRelease = false;
+            $message = 'PR target is not ReleaseMe target.';
+        } elseif (stripos($data['pull_request']['body'], self::RELEASE_BODY_TRIGGER) === false) {
+            $createRelease = false;
+            $message = 'Trigger not found in PR body.';
+        }
+
+        if (!$createRelease) {
+            //TODO: log the message
+        }
+
+        return $createRelease;
     }
 
     /**

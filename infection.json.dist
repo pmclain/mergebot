@@ -1,0 +1,22 @@
+{
+  "source": {
+    "directories": [
+      "src"
+    ],
+    "excludes": [
+      "Migrations",
+      "Kernel.php"
+    ]
+  },
+  "tmpDir": "build/infection/temp",
+  "timeout": 30,
+  "logs": {
+    "text": "build/infection/infection.log",
+    "summary": "build/infection/summary.log",
+    "debug": "build/infection/debug.log",
+    "perMutator": "build/infection/per-mutator.md"
+  },
+  "phpUnit": {
+    "customPath": "bin/phpunit"
+  }
+}
