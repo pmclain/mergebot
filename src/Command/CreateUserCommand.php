@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 
-class CreateAdminUserCommand extends Command
+class CreateUserCommand extends Command
 {
     /**
      * @var UserManagement
@@ -26,8 +26,8 @@ class CreateAdminUserCommand extends Command
     public function configure()
     {
         parent::configure();
-        $this->setDescription('Create a new admin user.');
-        $this->setName('admin:user:create');
+        $this->setDescription('Create a new user.');
+        $this->setName('user:create');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

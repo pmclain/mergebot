@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
-use App\Command\CreateAdminUserCommand;
+use App\Command\CreateUserCommand;
 use App\Entity\User;
 use App\Entity\UserManagement;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -29,9 +29,9 @@ class CreateUserCommandTest extends KernelTestCase
         $kernel = self::bootKernel();
         $application = new Application($kernel);
 
-        $application->add(new CreateAdminUserCommand($this->userManagementMock));
+        $application->add(new CreateUserCommand($this->userManagementMock));
 
-        $command = $application->find('admin:user:create');
+        $command = $application->find('user:create');
         $commandTester = new CommandTester($command);
 
         $email = 'test@example.com';
@@ -54,9 +54,9 @@ class CreateUserCommandTest extends KernelTestCase
         $kernel = self::bootKernel();
         $application = new Application($kernel);
 
-        $application->add(new CreateAdminUserCommand($this->userManagementMock));
+        $application->add(new CreateUserCommand($this->userManagementMock));
 
-        $command = $application->find('admin:user:create');
+        $command = $application->find('user:create');
         $commandTester = new CommandTester($command);
 
         $email = 'test@example.com';
