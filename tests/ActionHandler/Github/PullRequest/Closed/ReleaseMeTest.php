@@ -83,7 +83,10 @@ class ReleaseMeTest extends TestCase
         $this->permissionValidatorMock = $this->createMock(PermissionValidator::class);
         $this->releaseRepositoryMock = $this->createMock(ReleaseRepository::class);
         $this->pullRequestManagementMock = $this->createMock(PullRequestManagement::class);
-        $this->prBase = json_decode(file_get_contents(__DIR__ . '/../../../../data/github/event/pullrequest_closed.json'), true);
+        $this->prBase = json_decode(
+            file_get_contents(__DIR__ . '/../../../../data/github/event/pullrequest_closed.json'),
+            true
+        );
 
         $this->action = new ReleaseMe(
             $this->loggerMock,

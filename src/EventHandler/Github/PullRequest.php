@@ -37,6 +37,6 @@ class PullRequest implements EventHandlerInterface
         }
 
         $this->producer->setContentType('application/json');
-        $this->producer->publish(json_encode($data));
+        $this->producer->publish(json_encode($data) ?: '');
     }
 }

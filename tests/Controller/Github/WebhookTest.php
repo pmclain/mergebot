@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\Controller;
+namespace App\Tests\Controller\Github;
 
-use App\Controller\Github;
+use App\Controller\Github\Webhook;
 use App\EventHandler\EventHandlerPoolInterface;
 use App\Exception\EventNotFoundException;
 use App\Github\RequestValidator;
@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\HeaderBag;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\EventRecorder;
 
-class GithubTest extends TestCase
+class WebhookTest extends TestCase
 {
     /**
      * @var Request|MockObject
@@ -47,37 +47,37 @@ class GithubTest extends TestCase
         $this->requestMock->headers = $headersMock;
     }
 
-    public function testWebhook()
+    public function testExecute()
     {
         $handlerPoolMock = $this->createMock(EventHandlerPoolInterface::class);
 
-        $controller = new Github($handlerPoolMock, $this->validatorMock, $this->eventRecorderMock);
-        $result = $controller->webhook($this->requestMock);
+        $controller = new Webhook($handlerPoolMock, $this->validatorMock, $this->eventRecorderMock);
+        $result = $controller->execute($this->requestMock);
 
         $this->assertEquals(202, $result->getStatusCode());
     }
 
-    public function testWebhookWithException()
+    public function testExecuteWithException()
     {
         $handlerPoolMock = $this->createMock(EventHandlerPoolInterface::class);
         $handlerPoolMock->method('handle')
             ->willThrowException(new EventNotFoundException(''));
 
-        $controller = new Github($handlerPoolMock, $this->validatorMock, $this->eventRecorderMock);
-        $result = $controller->webhook($this->requestMock);
+        $controller = new Webhook($handlerPoolMock, $this->validatorMock, $this->eventRecorderMock);
+        $result = $controller->execute($this->requestMock);
 
         $this->assertEquals(400, $result->getStatusCode());
     }
 
-    public function testWebhookFailedSecretValidation()
+    public function testExecuteFailedSecretValidation()
     {
         $handlerPoolMock = $this->createMock(EventHandlerPoolInterface::class);
 
         $this->validatorMock->method('validate')
             ->willThrowException(new \App\Exception\RequestValidationException('message'));
 
-        $controller = new Github($handlerPoolMock, $this->validatorMock, $this->eventRecorderMock);
-        $result = $controller->webhook($this->requestMock);
+        $controller = new Webhook($handlerPoolMock, $this->validatorMock, $this->eventRecorderMock);
+        $result = $controller->execute($this->requestMock);
 
         $this->assertEquals(403, $result->getStatusCode());
     }

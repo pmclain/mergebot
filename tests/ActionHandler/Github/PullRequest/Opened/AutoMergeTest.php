@@ -50,7 +50,10 @@ class AutoMergeTest extends TestCase
         $this->loggerMock = $this->createMock(LoggerInterface::class);
         $this->configRepositoryMock = $this->createMock(ConfigRepository::class);
         $this->permissionValidatorMock = $this->createMock(PermissionValidator::class);
-        $this->eventMessage = json_decode(file_get_contents(__DIR__ . '/../../../../data/github/event/pullrequest_open.json'), true);
+        $this->eventMessage = json_decode(
+            file_get_contents(__DIR__ . '/../../../../data/github/event/pullrequest_open.json'),
+            true
+        );
     }
 
     public function testExecute()

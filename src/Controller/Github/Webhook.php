@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\Github;
 
 use App\Entity\EventRecorder;
 use App\EventHandler\EventHandlerPoolInterface;
@@ -11,7 +11,7 @@ use App\Github\RequestValidator;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class Github
+class Webhook
 {
     const HEADER_EVENT = 'X-GitHub-Event';
 
@@ -40,7 +40,7 @@ class Github
         $this->eventRecorder = $eventRecorder;
     }
 
-    public function webhook(Request $request): JsonResponse
+    public function execute(Request $request): JsonResponse
     {
         $eventData = json_decode($request->getContent(), true);
 
@@ -49,6 +49,10 @@ class Github
             $event = $request->headers->get(self::HEADER_EVENT);
             if (!$event) {
                 throw new EventNotFoundException(sprintf('%s header contained no event.', self::HEADER_EVENT));
+            }
+
+            if (is_array($event)) {
+                throw new \InvalidArgumentException('Event expected to be string, array provided.');
             }
 
             $this->handlerPool->handle($event, $eventData);

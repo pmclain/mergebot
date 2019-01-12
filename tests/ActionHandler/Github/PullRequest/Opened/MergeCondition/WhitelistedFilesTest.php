@@ -43,7 +43,10 @@ class WhitelistedFilesTest extends TestCase
 
     protected function setUp()
     {
-        $this->fileResponse = json_decode(file_get_contents(__DIR__ . '/../../../../../data/github/pullrequest/files.json'), true);
+        $this->fileResponse = json_decode(
+            file_get_contents(__DIR__ . '/../../../../../data/github/pullrequest/files.json'),
+            true
+        );
         $this->configRepositoryMock = $this->createMock(ConfigRepository::class);
         $this->configMock = $this->createMock(Config::class);
     }

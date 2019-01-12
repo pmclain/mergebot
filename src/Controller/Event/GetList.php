@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Event;
 
 use App\Repository\EventRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class Event
+class GetList
 {
     /**
      * @var EventRepository
@@ -19,7 +19,7 @@ class Event
         $this->eventRepository = $eventRepository;
     }
 
-    public function list(Request $request): JsonResponse
+    public function execute(Request $request): JsonResponse
     {
         $responseItems = [];
         //TODO: add filter/sort support

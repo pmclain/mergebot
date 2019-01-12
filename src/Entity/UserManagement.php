@@ -46,9 +46,4 @@ class UserManagement
 
         return $user;
     }
-
-    public function changePassword(User $user, string $oldPassword, string $newPassword): bool
-    {
-        //TODO: implement
-    }
 }

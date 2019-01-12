@@ -50,7 +50,10 @@ class Adapter
             ]);
         } catch (ClientException $e) {
             $response = $e->getResponse();
-            throw new HttpResponseException('REQUEST: ' . $e->getRequest()->getBody() . '\nRESPONSE: ' . $response->getBody(), $response->getStatusCode());
+            throw new HttpResponseException(
+                'REQUEST: ' . $e->getRequest()->getBody() . '\nRESPONSE: ' . $response->getBody(),
+                $response->getStatusCode()
+            );
         }
 
         return json_decode($response->getBody(), true);
@@ -69,7 +72,10 @@ class Adapter
             ]);
         } catch (ClientException $e) {
             $response = $e->getResponse();
-            throw new HttpResponseException('REQUEST: ' . $e->getRequest()->getBody() . '\nRESPONSE: ' . $response->getBody(), $response->getStatusCode());
+            throw new HttpResponseException(
+                'REQUEST: ' . $e->getRequest()->getBody() . '\nRESPONSE: ' . $response->getBody(),
+                $response->getStatusCode()
+            );
         }
 
         return $response->getBody();
@@ -90,7 +96,10 @@ class Adapter
             ]);
         } catch (ClientException $e) {
             $response = $e->getResponse();
-            throw new HttpResponseException('REQUEST: ' . $e->getRequest()->getBody() . '\nRESPONSE: ' . $response->getBody(), $response->getStatusCode());
+            throw new HttpResponseException(
+                'REQUEST: ' . $e->getRequest()->getBody() . '\nRESPONSE: ' . $response->getBody(),
+                $response->getStatusCode()
+            );
         }
 
         return json_decode($response->getBody(), true);
@@ -99,7 +108,7 @@ class Adapter
     /**
      * @param string $url
      * @param array $data
-     * @return array|null
+     * @return array
      * @throws HttpResponseException
      */
     public function put(string $url, ?array $data = null): array
@@ -114,7 +123,10 @@ class Adapter
             $response = $this->client->put($url, $options);
         } catch (ClientException $e) {
             $response = $e->getResponse();
-            throw new HttpResponseException('REQUEST: ' . $e->getRequest()->getBody() . '\nRESPONSE: ' . $response->getBody(), $response->getStatusCode());
+            throw new HttpResponseException(
+                'REQUEST: ' . $e->getRequest()->getBody() . '\nRESPONSE: ' . $response->getBody(),
+                $response->getStatusCode()
+            );
         }
 
         return json_decode($response->getBody(), true);

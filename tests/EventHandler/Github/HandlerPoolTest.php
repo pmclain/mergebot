@@ -26,6 +26,5 @@ class HandlerPoolTest extends TestCase
         $pool = new HandlerPool([]);
 
         $pool->handle('testEvent', []);
-
     }
 }

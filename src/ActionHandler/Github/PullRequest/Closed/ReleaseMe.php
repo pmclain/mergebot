@@ -114,7 +114,7 @@ class ReleaseMe implements TaskInterface
             if (strpos($commit['commit']['message'], 'Merge pull request') !== false) {
                 continue;
             }
-            $body .= '* ' . rtrim(strtok($commit['commit']['message'], "\n")) . "\r\n";
+            $body .= '* ' . rtrim((string) strtok($commit['commit']['message'], "\n")) . "\r\n";
         }
         $body .= "\r\nRelease created by mergebot";
 

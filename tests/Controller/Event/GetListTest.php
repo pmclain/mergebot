@@ -2,13 +2,13 @@
 
 namespace App\Tests\Controller;
 
-use App\Controller\Event;
+use App\Controller\Event\GetList;
 use App\Repository\EventRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 
-class EventTest extends TestCase
+class GetListTest extends TestCase
 {
     /**
      * @var Request|MockObject
@@ -29,19 +29,19 @@ class EventTest extends TestCase
         $this->repositoryMock = $this->createMock(EventRepository::class);
     }
 
-    public function testList()
+    public function testExecute()
     {
         $event = new \App\Entity\Event();
         $event->setEventData(['test' => 'test'])
             ->setTaskName('test-event')
             ->setMessage('error');
 
-        $controller = new Event($this->repositoryMock);
+        $controller = new GetList($this->repositoryMock);
         $this->repositoryMock->method('findAll')->willReturn([$event]);
 
         $this->assertEquals(
             json_encode(['' => $event->toArray()]),
-            $controller->list($this->requestMock)->getContent()
+            $controller->execute($this->requestMock)->getContent()
         );
     }
 }
