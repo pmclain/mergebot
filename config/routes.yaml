@@ -2,6 +2,12 @@
 #    path: /
 #    controller: App\Controller\DefaultController::index
 
+index:
+  path: /
+  methods:
+    - GET
+  controller: App\Controller\Index\Index::execute
+
 github_webhook:
   path: /github/webhook
   methods:
