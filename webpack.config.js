@@ -1,4 +1,5 @@
-var Encore = require('@symfony/webpack-encore');
+const Encore = require('@symfony/webpack-encore');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 Encore
     // directory where compiled assets will be stored
@@ -50,6 +51,10 @@ Encore
     // uncomment if you use API Platform Admin (composer req api-admin)
     .enableReactPreset()
     //.addEntry('admin', './assets/js/admin.js')
+    .addPlugin(new HtmlWebpackPlugin({
+        filename: '../index.html',
+        template: './assets/index.html',
+    }))
 ;
 
 module.exports = Encore.getWebpackConfig();
