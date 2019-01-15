@@ -1,0 +1,30 @@
+.detail {
+  &__open {
+    pre {
+      display: block;
+    }
+    
+    span {
+      display: none;
+    }
+    
+    .toggle {
+      transform: rotate(90deg);
+    }
+  }
+
+  &__closed {
+    pre {
+      display: none;
+    }
+    
+    span {
+      display: inline;
+    }
+
+    .toggle {
+      margin: 0 .75em 0 0;
+      transform: rotate(270deg);
+    }
+  }
+}

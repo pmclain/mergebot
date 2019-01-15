@@ -40,7 +40,7 @@ class GetListTest extends TestCase
         $this->repositoryMock->method('findAll')->willReturn([$event]);
 
         $this->assertEquals(
-            json_encode(['' => $event->toArray()]),
+            json_encode([$event->toArray()]),
             $controller->execute($this->requestMock)->getContent()
         );
     }

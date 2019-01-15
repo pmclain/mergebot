@@ -34,7 +34,7 @@ class Event
 
     /**
      * @ORM\Column(type="blob")
-     * @var string
+     * @var string|resource
      */
     private $eventData;
 
@@ -75,7 +75,12 @@ class Event
 
     public function getEventData(): array
     {
-        return json_decode($this->eventData, true);
+        $eventData = $this->eventData;
+        if (is_resource($eventData)) {
+            $eventData = (string) stream_get_contents($eventData);
+        }
+
+        return json_decode($eventData, true);
     }
 
     public function setEventData(array $eventData): self
@@ -106,7 +111,7 @@ class Event
             'id' => $this->getId(),
             'task_name' => $this->getTaskName(),
             'event_data' => $this->getEventData(),
-            'create_at' => $this->getCreatedAt(),
+            'created_at' => $this->getCreatedAt(),
         ];
     }
 }

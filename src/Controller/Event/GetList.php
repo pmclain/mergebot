@@ -26,7 +26,7 @@ class GetList
         $events = $this->eventRepository->findAll();
 
         foreach ($events as $event) {
-            $responseItems[$event->getId()] = $event->toArray();
+            $responseItems[] = $event->toArray();
         }
 
         return new JsonResponse($responseItems);
