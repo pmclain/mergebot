@@ -2,9 +2,9 @@ FROM nginx:1.9
 
 LABEL MAINTAINER="Patrick McLain <pat@pmclain.com>"
 
-ADD etc/vhost.conf /etc/nginx/conf.d/default.conf
+COPY etc/vhost.conf /etc/nginx/conf.d/default.conf
 COPY etc/certs/ /etc/nginx/ssl/
-ADD bin/* /usr/local/bin/
+COPY bin/* /usr/local/bin/
 
 EXPOSE 443
 

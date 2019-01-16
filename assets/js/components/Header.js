@@ -9,7 +9,7 @@ class Header extends Component {
         if (isLoggedIn) {
             content = '';
         } else {
-            content = <Login handleLoginChange={handleLoginChange} setGlobalLoaderState={this.props.setGlobalLoaderState}/>
+            content = <Login handleLoginChange={handleLoginChange} setGlobalLoaderState={this.props.setGlobalLoaderState}/>;
         }
 
         return (

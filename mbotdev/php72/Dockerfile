@@ -34,15 +34,15 @@ ENV PHP_MEMORY_LIMIT 756M
 ENV XDEBUG_REMOTE_HOST docker.for.mac.localhost
 ENV XDEBUG_ENABLE true
 
-ADD etc/php-fpm.ini /usr/local/etc/php/conf.d/zz-php-fpm.ini
-ADD etc/php-xdebug.ini /usr/local/etc/php/conf.d/zz-xdebug.ini
+COPY etc/php-fpm.ini /usr/local/etc/php/conf.d/zz-php-fpm.ini
+COPY etc/php-xdebug.ini /usr/local/etc/php/conf.d/zz-xdebug.ini
 
-ADD docker-entrypoint.sh /docker-entrypoint.sh
+COPY docker-entrypoint.sh /docker-entrypoint.sh
 
 RUN ["chmod", "+x", "/docker-entrypoint.sh"]
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
-ADD etc/php-fpm.conf /usr/local/etc/
+COPY etc/php-fpm.conf /usr/local/etc/
 
 CMD ["php-fpm", "-F", "-R"]

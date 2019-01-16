@@ -15,7 +15,7 @@ class Detail extends Component {
     toggleOpen() {
         this.setState({
             open: !this.state.open,
-        })
+        });
     }
 
     render() {
