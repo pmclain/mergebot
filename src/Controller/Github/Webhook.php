@@ -57,6 +57,7 @@ class Webhook
 
             $this->handlerPool->handle($event, $eventData);
         } catch (EventNotFoundException $e) {
+            $this->eventRecorder->record('webhook', $eventData, $e->getMessage());
             return new JsonResponse(['error' => $e->getMessage()], 400);
         } catch (RequestValidationException $e) {
             $this->eventRecorder->record('webhook', $eventData, $e->getMessage());
