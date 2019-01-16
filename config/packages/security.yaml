@@ -19,6 +19,8 @@ security:
             json_login:
                 check_path: /login
 
+            entry_point: App\Security\LoginEntryPoint
+
             # activate different ways to authenticate
 
             # http_basic: true

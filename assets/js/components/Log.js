@@ -26,7 +26,7 @@ class Log extends Component {
                 events: result.data
             });
         }).catch(reason => {
-            if (reason.response.status === 401) {
+            if (reason.response.status === 403) {
                 this.props.handleLoginChange(false);
                 this.props.setGlobalLoaderState(false);
             }

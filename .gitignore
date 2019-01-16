@@ -10,6 +10,7 @@
 /mbotdev/composer.env
 /tests/coverage
 /build
+/public/index.html
 
 ###> symfony/phpunit-bridge ###
 .phpunit
