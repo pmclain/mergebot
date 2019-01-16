@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\EventHandler\Github;
 
@@ -30,7 +31,7 @@ class PullRequest implements EventHandlerInterface
      * @param array $data
      * @throws EventNotFoundException
      */
-    public function handle(array $data)
+    public function handle(array $data): void
     {
         if (!isset($this->actions[$data['action']])) {
             throw new EventNotFoundException(sprintf('Pull request action %s is not supported.', $data['action']));

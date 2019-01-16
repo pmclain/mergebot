@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\ActionHandler\Github\PullRequest\Closed;
 
@@ -69,7 +70,7 @@ class ReleaseMe implements TaskInterface
         $this->eventRecorder = $eventRecorder;
     }
 
-    public function execute(array $data)
+    public function execute(array $data): void
     {
         if (!$this->shouldCreateRelease($data)) {
             return;

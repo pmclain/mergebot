@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\EventHandler\Github;
 
@@ -24,7 +25,7 @@ class HandlerPool implements EventHandlerPoolInterface
      * @param array $data
      * @throws EventNotFoundException
      */
-    public function handle(string $event, array $data)
+    public function handle(string $event, array $data): void
     {
         if (!isset($this->events[$event])) {
             throw new EventNotFoundException(sprintf('No handler for event %s', $event));

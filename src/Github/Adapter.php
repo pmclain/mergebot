@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Github;
 
@@ -56,7 +57,7 @@ class Adapter
             );
         }
 
-        return json_decode($response->getBody(), true);
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     /**
@@ -78,7 +79,7 @@ class Adapter
             );
         }
 
-        return $response->getBody();
+        return $response->getBody()->getContents();
     }
 
     /**
@@ -97,12 +98,16 @@ class Adapter
         } catch (ClientException $e) {
             $response = $e->getResponse();
             throw new HttpResponseException(
-                'REQUEST: ' . $e->getRequest()->getBody() . '\nRESPONSE: ' . $response->getBody(),
+                sprintf(
+                    'REQUEST: %s\nRESPONSE: %s',
+                    $e->getRequest()->getBody()->getContents(),
+                    $response->getBody()->getContents()
+                ),
                 $response->getStatusCode()
             );
         }
 
-        return json_decode($response->getBody(), true);
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     /**
@@ -124,12 +129,16 @@ class Adapter
         } catch (ClientException $e) {
             $response = $e->getResponse();
             throw new HttpResponseException(
-                'REQUEST: ' . $e->getRequest()->getBody() . '\nRESPONSE: ' . $response->getBody(),
+                sprintf(
+                    'REQUEST: %s\nRESPONSE: %s',
+                    $e->getRequest()->getBody()->getContents(),
+                    $response->getBody()->getContents()
+                ),
                 $response->getStatusCode()
             );
         }
 
-        return json_decode($response->getBody(), true);
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     private function getAuthArray(): array

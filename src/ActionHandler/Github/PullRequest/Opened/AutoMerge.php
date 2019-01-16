@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\ActionHandler\Github\PullRequest\Opened;
 
@@ -59,7 +60,7 @@ class AutoMerge implements TaskInterface
         $this->eventRecorder = $eventRecorder;
     }
 
-    public function execute(array $data)
+    public function execute(array $data): void
     {
         if (!$this->isAllow($data)) {
             $this->eventRecorder->record(

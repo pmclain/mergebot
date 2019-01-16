@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Consumer\Github;
 
@@ -23,7 +24,7 @@ class PullRequest implements ConsumerInterface
      * @param AMQPMessage $msg
      * @return void
      */
-    public function execute(AMQPMessage $msg)
+    public function execute(AMQPMessage $msg): void
     {
         $body = json_decode($msg->body, true);
         if (!isset($this->actions[$body['action']])) {

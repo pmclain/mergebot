@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Github;
 
@@ -70,7 +71,7 @@ class ReleaseRepository
         string $target,
         string $tag,
         string $body
-    ) {
+    ): array {
         return $this->adapter->post(
             sprintf(self::PATTERN_RELEASE_URL, $user, $repo),
             [

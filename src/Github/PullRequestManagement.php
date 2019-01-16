@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Github;
 
@@ -24,7 +25,7 @@ class PullRequestManagement
      * @param array $pullRequest
      * @throws HttpResponseException
      */
-    public function merge(array $pullRequest)
+    public function merge(array $pullRequest): void
     {
         $this->comment($pullRequest, 'Auto-merged by mergebot.');
         $this->adapter->put($pullRequest['url'] . self::URL_MERGE);
@@ -35,7 +36,7 @@ class PullRequestManagement
      * @param string $comment
      * @throws HttpResponseException
      */
-    public function comment(array $pullRequest, string $comment)
+    public function comment(array $pullRequest, string $comment): void
     {
         $this->adapter->post($pullRequest['comments_url'], [
             'body' => $comment,
