@@ -5,6 +5,7 @@ namespace App\ActionHandler\Github\Closed;
 use App\ActionHandler\Config;
 use App\ActionHandler\Github\PullRequest\Closed\ReleaseMe;
 use App\ActionHandler\PermissionValidator;
+use App\Entity\EventRecorder;
 use App\Exception\HttpResponseException;
 use App\Github\ConfigRepository;
 use App\Github\PullRequestManagement;
@@ -51,6 +52,11 @@ class ReleaseMeTest extends TestCase
     private $pullRequestManagementMock;
 
     /**
+     * @var EventRecorder|MockObject
+     */
+    private $eventRecorderMock;
+
+    /**
      * @var ReleaseMe
      */
     private $action;
@@ -83,6 +89,7 @@ class ReleaseMeTest extends TestCase
         $this->permissionValidatorMock = $this->createMock(PermissionValidator::class);
         $this->releaseRepositoryMock = $this->createMock(ReleaseRepository::class);
         $this->pullRequestManagementMock = $this->createMock(PullRequestManagement::class);
+        $this->eventRecorderMock = $this->createMock(EventRecorder::class);
         $this->prBase = json_decode(
             file_get_contents(__DIR__ . '/../../../../data/github/event/pullrequest_closed.json'),
             true
@@ -93,13 +100,15 @@ class ReleaseMeTest extends TestCase
             $this->configRepositoryMock,
             $this->permissionValidatorMock,
             $this->releaseRepositoryMock,
-            $this->pullRequestManagementMock
+            $this->pullRequestManagementMock,
+            $this->eventRecorderMock
         );
     }
 
     public function testExecuteWithoutPermission()
     {
         $this->permissionValidatorMock->method('isAllowAction')->willReturn(false);
+        $this->eventRecorderMock->expects($this->once())->method('record');
 
         $this->releaseRepositoryMock->expects($this->never())->method('create');
 

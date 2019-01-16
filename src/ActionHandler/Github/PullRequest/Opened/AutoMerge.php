@@ -5,6 +5,7 @@ namespace App\ActionHandler\Github\PullRequest\Opened;
 use App\ActionHandler\PermissionValidator;
 use App\ActionHandler\Github\PullRequest\Opened\MergeCondition\MergeConditionInterface;
 use App\ActionHandler\TaskInterface;
+use App\Entity\EventRecorder;
 use App\Exception\HttpResponseException;
 use App\Github\ConfigRepository;
 use App\Github\PullRequestManagement;
@@ -37,23 +38,35 @@ class AutoMerge implements TaskInterface
      */
     private $permissionValidator;
 
+    /**
+     * @var EventRecorder
+     */
+    private $eventRecorder;
+
     public function __construct(
         array $mergeConditions,
         PullRequestManagement $pullRequestManagement,
         LoggerInterface $logger,
         ConfigRepository $configRepository,
-        PermissionValidator $permissionValidator
+        PermissionValidator $permissionValidator,
+        EventRecorder $eventRecorder
     ) {
         $this->mergeConditions = $mergeConditions;
         $this->pullRequestManagement = $pullRequestManagement;
         $this->logger = $logger;
         $this->configRepository = $configRepository;
         $this->permissionValidator = $permissionValidator;
+        $this->eventRecorder = $eventRecorder;
     }
 
     public function execute(array $data)
     {
         if (!$this->isAllow($data)) {
+            $this->eventRecorder->record(
+                'pr_opened_auto_merge',
+                $data,
+                'AutoMerge is not configured for this PR'
+            );
             return;
         }
 

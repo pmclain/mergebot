@@ -5,6 +5,7 @@ namespace App\ActionHandler\Github\PullRequest\Closed;
 use App\ActionHandler\Config;
 use App\ActionHandler\PermissionValidator;
 use App\ActionHandler\TaskInterface;
+use App\Entity\EventRecorder;
 use App\Exception\HttpResponseException;
 use App\Github\ConfigRepository;
 use App\Github\PullRequestManagement;
@@ -47,18 +48,25 @@ class ReleaseMe implements TaskInterface
      */
     private $pullRequestManagement;
 
+    /**
+     * @var EventRecorder
+     */
+    private $eventRecorder;
+
     public function __construct(
         LoggerInterface $logger,
         ConfigRepository $configRepository,
         PermissionValidator $permissionValidator,
         ReleaseRepository $releaseRepository,
-        PullRequestManagement $pullRequestManagement
+        PullRequestManagement $pullRequestManagement,
+        EventRecorder $eventRecorder
     ) {
         $this->logger = $logger;
         $this->configRepository = $configRepository;
         $this->permissionValidator = $permissionValidator;
         $this->releaseRepository = $releaseRepository;
         $this->pullRequestManagement = $pullRequestManagement;
+        $this->eventRecorder = $eventRecorder;
     }
 
     public function execute(array $data)
@@ -146,7 +154,7 @@ class ReleaseMe implements TaskInterface
         }
 
         if (!$createRelease) {
-            //TODO: log the message
+            $this->eventRecorder->record('pr_closed_release_me', $data, $message);
         }
 
         return $createRelease;

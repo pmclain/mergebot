@@ -5,6 +5,7 @@ namespace App\Tests\ActionHandler\Github\PullRequest\Opened;
 use App\ActionHandler\Github\PullRequest\Opened\AutoMerge;
 use App\ActionHandler\Github\PullRequest\Opened\MergeCondition\MergeConditionInterface;
 use App\ActionHandler\PermissionValidator;
+use App\Entity\EventRecorder;
 use App\Github\ConfigRepository;
 use App\Github\PullRequestManagement;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -39,6 +40,11 @@ class AutoMergeTest extends TestCase
     private $permissionValidatorMock;
 
     /**
+     * @var EventRecorder|MockObject
+     */
+    private $eventRecorderMock;
+
+    /**
      * @var array
      */
     private $eventMessage;
@@ -50,6 +56,7 @@ class AutoMergeTest extends TestCase
         $this->loggerMock = $this->createMock(LoggerInterface::class);
         $this->configRepositoryMock = $this->createMock(ConfigRepository::class);
         $this->permissionValidatorMock = $this->createMock(PermissionValidator::class);
+        $this->eventRecorderMock = $this->createMock(EventRecorder::class);
         $this->eventMessage = json_decode(
             file_get_contents(__DIR__ . '/../../../../data/github/event/pullrequest_open.json'),
             true
@@ -71,7 +78,8 @@ class AutoMergeTest extends TestCase
             $this->pullRequestManagementMock,
             $this->loggerMock,
             $this->configRepositoryMock,
-            $this->permissionValidatorMock
+            $this->permissionValidatorMock,
+            $this->eventRecorderMock
         );
         $action->execute($this->eventMessage);
     }
@@ -91,7 +99,8 @@ class AutoMergeTest extends TestCase
             $this->pullRequestManagementMock,
             $this->loggerMock,
             $this->configRepositoryMock,
-            $this->permissionValidatorMock
+            $this->permissionValidatorMock,
+            $this->eventRecorderMock
         );
         $action->execute($this->eventMessage);
     }
@@ -100,6 +109,8 @@ class AutoMergeTest extends TestCase
     {
         $this->mergeConditionMock->method('allowMerge')
             ->willReturn(false);
+
+        $this->eventRecorderMock->expects($this->once())->method('record');
 
         $this->pullRequestManagementMock->expects($this->never())
             ->method('merge');
@@ -111,7 +122,8 @@ class AutoMergeTest extends TestCase
             $this->pullRequestManagementMock,
             $this->loggerMock,
             $this->configRepositoryMock,
-            $this->permissionValidatorMock
+            $this->permissionValidatorMock,
+            $this->eventRecorderMock
         );
         $action->execute($this->eventMessage);
     }
